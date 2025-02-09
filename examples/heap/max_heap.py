@@ -1,14 +1,9 @@
-"""
-We will implement a heap to keep track of the kth larget item.
-Important calculations for heaps: 
-    index of left of node = 2 * i + 1
-    index of right of node = 
-"""
-
 class MaxIntHeap:
-    def __init__(self, size=0):
+    def __init__(self, capacity=3):
         self.items = []
-        self.size = size
+        self.size = 0
+        self.capacity = capacity
+        
 
     def getChildIndex(self,parentIndex:int,isLeft):
         if isLeft:
@@ -43,10 +38,11 @@ class MaxIntHeap:
     
     def popMaxElement(self):
         if self.size == 0:
-            raise Exception("Can't poll an empty heap")
+            raise Exception("Can't pop on an empty heap")
         item = self.items[0]
         self.items[0] = self.items[self.size-1]
         self.size -=1
+        self.items.pop(-1)
         self.heapifyDown()
         return item
             
@@ -56,7 +52,13 @@ class MaxIntHeap:
         if self.size == 0:
             self.items.append(item)
             self.size +=1
+            return self.peek()
         else:
+            if self.size == self.capacity:
+                if self.items[0] > item:
+                    self.popMinElement()
+                else:
+                    return self.peek()
             self.items.append(item)
             self.size +=1
             self.heapifyUp()
@@ -69,7 +71,7 @@ class MaxIntHeap:
             index = self.getParentIndex(index)
 
     def heapifyDown(self):
-        index = self.size
+        index = 0
         while self.hasChild(index,True):
             # find the largest child between the left and right
             largestChild = self.getChildIndex(index,True)
@@ -82,15 +84,3 @@ class MaxIntHeap:
             else:
                 self.swap(index,largestChild)
             index = largestChild
-        
-
-
-x = MaxIntHeap()
-x.addElement(2)
-x.addElement(3)
-x.addElement(3)
-x.addElement(5)   
-x.addElement(6)   
-x.addElement(7)   
-x.addElement(8)
-print(x.peek())
