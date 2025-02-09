@@ -1,3 +1,25 @@
+from typing import List
+"""
+Process a stream of inputs and always return the kth largest element from the values processed so far
+We'll implement this using a min-heap of a fixed size k
+Everytime we add a number, if the heap is already full up to k
+then we instead check if the new value is larger than the min value
+if so pop the min, add the new value then re-heapify which in turn will bubble
+down the new kth largest value
+"""
+
+class KthLargest:
+
+    def __init__(self, k: int, nums: List[int]):
+        self.heap = MinIntHeap(capacity=k)
+        for num in nums:
+            self.heap.addElement(num)
+
+
+    def add(self, val: int) -> int:
+        return self.heap.addElement(val)
+
+
 class MinIntHeap:
     def __init__(self, capacity=3):
         self.items = []
@@ -84,3 +106,10 @@ class MinIntHeap:
             else:
                 self.swap(index,smallestChild)
             index = smallestChild
+
+heapk = KthLargest(4, [4, 5, 5, 6, 6, 7])
+heapk.add(3)
+print(heapk.add(-2))
+print(heapk.add(5))
+print(heapk.add(10))
+print(heapk.add(9))
