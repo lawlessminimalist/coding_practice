@@ -55,7 +55,6 @@ class Solution:
 
     def maxAreaOfIsland(self, grid: List[List[str]]) -> int:
         seen = set()
-        queue = deque()
         max_area = 0
         for row in range(len(grid)):
             for column in range(len(grid[0])):
