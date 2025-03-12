@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-server
+  labels:
+    app: py-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: py-server
+  template:
+    metadata:
+      labels:
+        app: py-server
+    spec:
+      containers:
+      - name: py-server
+        image: testing-image:0.3
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
